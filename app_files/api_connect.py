@@ -2,6 +2,7 @@ import os
 import openai
 import wget
 from datetime import datetime, timezone
+from termcolor import colored
 
 # setup initial api requirements
 openai.api_key = os.getenv('api_key')
@@ -13,21 +14,31 @@ num_img_generations = 2
 
 # program data
 quit_options = ['quit', 'Quit', 'Q', 'q', 'exit', 'Exit', 'ex', 'e', 'E']
+engine_options = ['engine', 'Engine', 'eng', 'Eng', 'engines', 'Engines']
 completion_options = ['completion', 'Completion', 'comp', 'Comp', 'complete']
-image_options = ['image', 'Image', 'img', 'Img']
-img_create_options = ['create new image', 'create', 'new', 'Create new image', 'new image']
+image_options = ['image', 'Image', 'img', 'Img', 'i']
+img_create_options = ['create new image', 'create', 'new', 'Create new image', 'new image', 'cr']
 img_modify_options = ['modify existing image', 'Modify existing image', 'modify image', 'modify img', 'modify', 'mod', 'existing']
 prompt_log = []
 
 # user input loop for making continuous requests
 api_continue = True
+print('API Connector ' + colored('[RUNNING]', 'green'))
 while api_continue:
-	activity = input(
-		"""Select what you want to do from the list:
-[Completion, Moderation, Image, Quit]: """)
-	if activity == 'quit' or activity == 'Quit' or activity == 'q':
+	activity = input('Select an activity [Completion, Moderation, Image, Engines, Quit]: ')
+	if activity in quit_options:
 		api_continue = False
 		continue
+	elif activity in engine_options:
+		print('\nAVAILABLE ENGINES BY CATEGORY:')
+		print('More detailed info: https://beta.openai.com/docs/models')
+		print('> text')
+		print('\t- Davinci (text-davinci-003): Slowest, Most Expensive, Can Do Everything')
+		print('\t- Curie (text-curie-001): Slower, Expensive, Translation/Summarization')
+		print('\t- Babbage (text-babbage-001): Fast, Cheap, Semantic Search')
+		print('\t- Ada (text-ada-001): Fastest, Cheapest, Parse Text/Address Correction/Keywords')
+		print('> image')
+		print('\t- DALL-E\n')
 	elif activity in completion_options:
 		print('\nSelected Completion')
 		print('Default engine: GPT-3 (text-davinci-003)\n')
@@ -65,4 +76,4 @@ while api_continue:
 with open('prompts.log', 'a') as writer:
 	for item in prompt_log:
 		writer.write(f'> {item}\n')
-print('API Connect terminated...')
+print('API Connector ' + colored('[TERMINATED]', 'red'))

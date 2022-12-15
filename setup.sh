@@ -85,7 +85,7 @@ if [[ $env_activated -eq 1 ]]; then
 	default_installed_packages=7
 	actual_installed_packages=$(ls env/lib/python$py_version_num_short/site-packages/ | wc -l)
 	if [[ actual_installed_packages -gt default_installed_packages ]]; then
-		echo -e "$success_msg $success_mg Dependencies were already installed."
+		echo -e "$success_msg Dependencies were already installed."
 		num_failed=$(($num_failed-1))
 	else
 		python3 -m pip install -q -r requirements.txt
