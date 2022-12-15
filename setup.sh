@@ -42,7 +42,7 @@ if [[ $python_installed -eq 1 ]]; then
 		num_failed=$(($num_failed-1))
 		env_installed=1
 	else
-		python -m venv env
+		python3 -m venv env
 		if [[ -d env ]]; then 
 			echo -e "$success_msg Env directory has been created successfully."
 			num_failed=$(($num_failed-1))
@@ -74,7 +74,7 @@ if [[ $env_installed -eq 1 ]]; then
 		fi
 	fi
 else
-	echo "3. ERROR: virtual env does not exist. Unable to activate virtual env."
+	echo -e "$failure_msg Virtual env does not exist. Unable to activate virtual env."
 fi
 
 # INSTALL DEPENDENCIES
@@ -108,7 +108,7 @@ if [[ ${user_key:0:2} -eq "sk" && ${#api_key} -eq 51 ]]; then
 	num_failed=$(($num_failed-1))
 # if no API key, set new API key
 else
-	read -p "Enter your OpenAI API key: " user_key
+	read -p "No API key found. Enter new API key (https://beta.openai.com/account/api-keys): " user_key
 	# validate API key
 	if [[ ${user_key:0:2} == "sk" && ${#user_key} -eq 51 ]]; then
 		# export key value as environment variable
