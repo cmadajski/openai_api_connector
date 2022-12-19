@@ -19,6 +19,8 @@ completion_options = ['completion', 'Completion', 'comp', 'Comp', 'complete']
 image_options = ['image', 'Image', 'img', 'Img', 'i']
 img_create_options = ['create new image', 'create', 'new', 'Create new image', 'new image', 'cr']
 img_modify_options = ['modify existing image', 'Modify existing image', 'modify image', 'modify img', 'modify', 'mod', 'existing']
+yes_values = ['y', 'Y', 'yes', 'YES', 'yeah', 'yas', '']
+no_values = ['n', 'N', 'no', 'NO', 'nah']
 prompt_log = []
 
 # user input loop for making continuous requests
@@ -29,6 +31,7 @@ while api_continue:
 	if activity in quit_options:
 		api_continue = False
 		continue
+	# show available engine options
 	elif activity in engine_options:
 		print('\nAVAILABLE ENGINES BY CATEGORY:')
 		print('More detailed info: https://beta.openai.com/docs/models')
@@ -40,10 +43,28 @@ while api_continue:
 		print('> image')
 		print('\t- DALL-E\n')
 	elif activity in completion_options:
-		print('\nSelected Completion')
-		print('Default engine: GPT-3 (text-davinci-003)\n')
-		text_prompt = input('Say something to GPT-3: ')
-		prompt_log.append(text_prompt)
+		print('\n-- Selected Completion --')
+		engine_selected = 'text-davinci-003'
+		engine_choice = input('Use default engine (Davinci)? [Y/n]: ')
+		if engine_choice not in yes_values:
+			print('> ENGINE OPTIONS')
+			print('   1. Davinci')
+			print('   2. Curie')
+			print('   3. Babbage')
+			print('   4. Ada')
+			engine_num = input('Enter an engine number: ')
+			if engine_num == '1':
+				engine_selected = 'text-davinci-003'
+			elif engine_num == '2':
+				engine_selected = 'text-curie-001'
+			elif engine_num == '3':
+				engine_selected = 'text-babbage-001'
+			elif engine_num == '4':
+				engine_selected = 'text-ada-001'
+			else:
+				engine_selected = 'text-davinci-003'
+		text_prompt = input(f'\n> Say something to GPT-3 ({engine_selected}): ')
+		prompt_log.append(f'TEXT: {text_prompt}')
 		completion = openai.Completion.create(engine='text-davinci-003', prompt=text_prompt, max_tokens=max_response_length)
 		print(completion.choices[0].text)
 	elif activity in image_options:
@@ -53,7 +74,7 @@ while api_continue:
 [Create new image, Modify existing image]: """)
 		if img_operation in img_create_options:
 			img_prompt = input('Provide a prompt for the image: ')
-			prompt_log.append(img_prompt)
+			prompt_log.append(f'NEW IMAGE: {img_prompt}')
 			try:
 				new_img = openai.Image.create(prompt=img_prompt, n=num_img_generations, size=default_img_size)
 			except Exception:
