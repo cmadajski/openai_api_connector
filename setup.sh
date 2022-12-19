@@ -12,7 +12,7 @@ env_activated=0
 depend_installed=0
 success_msg="\e[32m[SUCCESS]\e[0m"
 failure_msg="\e[31m[FAILURE]\e[0m"
-warn_msg="\e[93m[WARNING]\e[0m"
+warning_msg="\e[93m[WARNING]\e[0m"
 
 # CHECK PYTHON INSTALLATION
 # This project will not work without having Python 3 installed.
@@ -102,17 +102,36 @@ fi
 # for security, the API key is stored as an env variable and accessed in
 # the python script using os.getent('api_key')
 
-# check if API key already exists
+# check if api_key.txt file exists
+if [[ -f api_key.txt ]]; then
+	echo -e "$success_msg File api_key.txt already exists."
+else
+	touch api_key.txt
+	echo -e "$success_msg File api_key.txt has been created."
+fi
+
+# validate API key
+api_text_value=$(cat api_key.txt)
 if [[ ${user_key:0:2} -eq "sk" && ${#api_key} -eq 51 ]]; then
-	echo -e "$success_msg API key already exists."
+	echo -e "$success_msg API key already exists as env variable."
+	num_failed=$(($num_failed-1))
+	if [[ $api_key != $api_text_value ]]; then
+		echo $api_key > api_key.txt
+		echo -e "$warning_msg File api_key.txt updated to match env variable value."
+	fi
+# check if API key already exists in api_key.txt file
+elif [[ ${api_text_value:0:2} -eq "sk" && ${#api_text_value} -eq 51 ]]; then
+	export api_key=$api_text_value
+	echo -e "$success_msg API key found in api_key.txt."
 	num_failed=$(($num_failed-1))
 # if no API key, set new API key
 else
-	read -p "No API key found. Enter new API key (https://beta.openai.com/account/api-keys): " user_key
+	read -p "$warning_msg No API key found. Enter new key (https://beta.openai.com/account/api-keys): " user_key
 	# validate API key
 	if [[ ${user_key:0:2} == "sk" && ${#user_key} -eq 51 ]]; then
 		# export key value as environment variable
 		export api_key=$user_key
+		echo $api_key > api_key.txt
 		# provide response message for user feedback
 		echo -e "$success_msg OpenAI API key is now available in current environment"
 		num_failed=$(($num_failed-1))
