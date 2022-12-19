@@ -20,10 +20,17 @@ Clone the repo: `git clone https://github.com/cmadajski/openai_api_connector.git
 
 Run the setup script: `source setup.sh`
 
+You will be asked to provide an OpenAI API key. Copy/paste one of your OpenAI API keys into the terminal. You can find your API keys [here](https://beta.openai.com/account/api-keys).
+
 > NOTE: If you get an error when attempting to run setup.sh or run_api_connector.sh, you may need to allow execution privileges on those files by using `sudo chmod +x setup.sh` and `sudo chmod +x run_api_connector.sh`
 
 Run the app: `source run_api_connector.sh`
 
 ## User Guide
 
-WIP
+The API Connector supports 5 Main Functions:
+1. Text Completion
+2. Text Moderation
+3. Image Functions
+4. Engine Information
+5. Exit Program
