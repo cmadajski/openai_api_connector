@@ -2,13 +2,14 @@
 A Python command line utility for interacting with [OpenAI's]() public APIs.
 
 Feature Roadmap:
-- [x] Text prompts for GPT-3 (text-davinci-003 specifically)
+- [x] Text prompts for GPT-3
 - [x] New Image generation based on text prompt
 - [ ] Text moderation
 - [ ] Modifying existing images
 - [ ] Detailed session logging
 - [x] Switch engines
 - [ ] Change API params
+- [ ] API session persistence (previous request context maintained until token limit reached)
 
 ## Installation
 
