@@ -1,5 +1,3 @@
 #!/bin/bash
 
-cd app_files/
-python3 api_connect.py
-cd ../
+python3 app_files/api_connect.py
