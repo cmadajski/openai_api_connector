@@ -48,18 +48,21 @@ while api_continue:
 		engine_choice = input('Use default engine (Davinci)? [Y/n]: ')
 		if engine_choice not in yes_values:
 			print('> ENGINE OPTIONS')
-			print('   1. Davinci')
-			print('   2. Curie')
-			print('   3. Babbage')
-			print('   4. Ada')
+			print('   1. Davinci (text)')
+			print('   2. Davinci (code)')
+			print('   3. Curie')
+			print('   4. Babbage')
+			print('   5. Ada')
 			engine_num = input('Enter an engine number: ')
 			if engine_num == '1':
 				engine_selected = 'text-davinci-003'
 			elif engine_num == '2':
-				engine_selected = 'text-curie-001'
+				engine_selected = 'text-davinci-002'
 			elif engine_num == '3':
-				engine_selected = 'text-babbage-001'
+				engine_selected = 'text-curie-001'
 			elif engine_num == '4':
+				engine_selected = 'text-babbage-001'
+			elif engine_num == '5':
 				engine_selected = 'text-ada-001'
 			else:
 				engine_selected = 'text-davinci-003'
